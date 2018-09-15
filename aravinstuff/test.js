@@ -15,7 +15,7 @@ var server = app.listen(8000, function () {
 app.get('/form', function (req, res) {
         var html='';
         html +="<center><body>";
-        html += "<form action='/thank'  method='post' name='form1'>";
+        html += "<form action='/application/json'  method='post' name='form1'>";
         html += "Thr picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
         html += "<input type='submit' value='submit'>";
         html += "<INPUT type='reset'  value='reset'>";
@@ -29,7 +29,7 @@ app.get('/form', function (req, res) {
 
 
 
-app.post('/thank', urlencodedParser, function (req, res){
+app.post('/application/json', urlencodedParser, function (req, res){
         
         var URL =req.body.name;
     
@@ -47,11 +47,19 @@ const client = new vision.ImageAnnotatorClient();
 client
   .labelDetection(URL)
   .then(results => {
-    const labels = results[0].labelAnnotations;
+    var x=(results[0]);
+    
+    
+    res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(x));
 
-    console.log("Labels:");
+        app.get('/', function(req, res){
+            res.send(JSON.stringify(x));
+        });
+
+
     //labels.forEach(label => console.log(label.description));
-    putin(labels);
+    //putin(labels);
   
   })
   .catch(err => {
@@ -65,9 +73,21 @@ const fileName = 'img/supremeshirt.jpg';
 client
   .logoDetection(fileName)
   .then(results => {
-    console.log('Logos:');
-    var data1=(results[0].logoAnnotations[0].description);
-    putin(data1);
+
+    
+    
+    var x=(results[0]);
+    
+   
+        /*res.send(JSON.stringify(x));
+
+        app.get('/', function(req, res){
+            res.send(JSON.stringify(x));
+        });*/
+
+    
+    
+    //putin(data1);
  
   })
   .catch(err => {
@@ -93,7 +113,7 @@ console.log(data);
              
         
     
-    function putin (data1){
+    /*function putin (data1){
         
         
            var html = buildHtml(req);
@@ -127,7 +147,7 @@ console.log(data);
                         return '<!DOCTYPE html>'
                         + '<html><centre><header><strong>' + header+'</strong><br /><br /><br </centre><body>' + body+'<br />'+ '</centre>';
                 };
-    }
+    }*/
     
 
         

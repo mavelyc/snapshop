@@ -7,13 +7,27 @@
     
        <?php
      
-    $maps_url = './app.json';
-    $maps_json = file_get_contents($maps_url);
+    $maps_url = './aravinstuff/app.json';
+    
+    $url_2= './aravinstuff/logo.json';
+    
+    
+    
+    $maps_json = file_get_contents($maps_url);//for the labels
     $maps_array = json_decode($maps_json, true);
-    $logo = $maps_array['logoAnnotations'][0]['description'];
-    $label_0 = $maps_array ['labelAnnotations'][0]['description'];
-    $label_1 = $maps_array['labelAnnotations'][1]['description'];
-    $label_2 = $maps_array['labelAnnotations'][2]['description'];
+    
+    
+    
+    $url2_json= file_get_contents($url_2);
+    $array2 = json_decode($url2_json, true);
+    
+    
+    
+    
+    //$logo = $array2['results']['logoAnnotations'][0]['description'];
+    $label_0 = $maps_array['results']['labelAnnotations'][0]['description'];
+    $label_1 = $maps_array['results']['labelAnnotations'][1]['description'];
+    $label_2 = $maps_array['results']['labelAnnotations'][2]['description'];
 
     /**
      * Time to make our Instagram api request. We'll build the url using the

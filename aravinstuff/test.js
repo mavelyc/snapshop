@@ -1,139 +1,100 @@
 var http = require("http");
-var express = require('express');
+var express = require("express");
 var app = express();
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 // Running Server Details.
-var server = app.listen(8001, function () {
-        var host = server.address().address
-        var port = server.address().port
-        console.log("Example app listening at %s:%s Port", host, port)
+var server = app.listen(8001, function() {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log("Example app listening at %s:%s Port", host, port);
 });
 
-
-app.get('/form', function (req, res) {
-        var html='';
-        html +="<center><body>";
-        html += "<form action='/application/json'  method='post' name='form1'>";
-        html += "Thr picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
-        html += "<input type='submit' value='submit'>";
-        html += "<INPUT type='reset'  value='reset'>";
-        html += "</form>";
-        html += "</body></center>";
-        res.send(html);
+app.get("/form", function(req, res) {
+  var html = "";
+  html += "<center><body>";
+  html += "<form action='/application/json'  method='post' name='form1'>";
+  html +=
+    "Thr picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
+  html += "<input type='submit' value='submit'>";
+  html += "<INPUT type='reset'  value='reset'>";
+  html += "</form>";
+  html += "</body></center>";
+  res.send(html);
 });
 
+app.post("/application/json", urlencodedParser, function(req, res) {
+  var URL = req.body.name;
 
+  // Imports the Google Cloud client library
+  const vision = require("@google-cloud/vision");
 
+  // Creates a client
+  const client = new vision.ImageAnnotatorClient();
 
-
-
-app.post('/application/json', urlencodedParser, function (req, res){
-        
-        var URL =req.body.name;
-    
-    
-    
-    
-
-// Imports the Google Cloud client library
-const vision = require("@google-cloud/vision");
-
-// Creates a client
-const client = new vision.ImageAnnotatorClient();
-
-// Performs label detection on the image file
-client
-  .labelDetection(URL)
-  .then(results => {
-    var x={
+  // Performs label detection on the image file
+  client
+    .labelDetection(URL)
+    .then(results => {
+      var x = {
         results: results[0]
-    }
-        ;
-    
-    
- /*   res.setHeader('Content-Type', 'application/json');
+      };
+
+      /*   res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(x));
 
         app.get('/', function(req, res){
             res.send(JSON.stringify(x));
         });
 */
-    
-    var json = JSON.stringify(x);
-    var fs = require('fs')
-fs.writeFile ("app.json", json, function(err) {
-    if (err) throw err;
-    console.log('complete');
-    }
-);
 
-    //labels.forEach(label => console.log(label.description));
-    //putin(labels);
-  
-  })
-  .catch(err => {
-    console.error("ERROR:", err);
-  });
+      var json = JSON.stringify(x);
+      var fs = require("fs");
+      fs.writeFile("app.json", json, function(err) {
+        if (err) throw err;
+        console.log("complete");
+      });
 
+      //labels.forEach(label => console.log(label.description));
+      //putin(labels);
+    })
+    .catch(err => {
+      console.error("ERROR:", err);
+    });
 
-const fileName = 'img/supremeshirt.jpg';
+  client
+    .logoDetection(URL)
+    .then(results => {
+      var x = { results: results[0] };
 
-
-client
-  .logoDetection(fileName)
-  .then(results => {
-
-    
-    
-    var x={results:results[0]};
-    
-   
-        /*res.send(JSON.stringify(x));
+      /*res.send(JSON.stringify(x));
 
         app.get('/', function(req, res){
             res.send(JSON.stringify(x));
         });*/
 
-    
-    
-    //putin(data1);
-    
-     var json = JSON.stringify(x);
-    var fs = require('fs')
-fs.writeFile ("logo.json", json, function(err) {
-    if (err) throw err;
-    console.log('complete');
-    }
-);
-    
- 
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
+      //putin(data1);
 
+      var json = JSON.stringify(x);
+      var fs = require("fs");
+      fs.writeFile("logo.json", json, function(err) {
+        if (err) throw err;
+        console.log("complete");
+      });
+    })
+    .catch(err => {
+      console.error("ERROR:", err);
+    });
 
-function createHTML(data){
+  function createHTML(data) {
+    //console.log ("test");
+    console.log(data);
+  }
 
-//console.log ("test");
-console.log(data);
+  app.set("view engine", "hbs");
 
-}
-    
-    
-    
-     app.set('view engine', 'hbs');
-    
-    
-                
-                
-                
-             
-        
-    
-    /*function putin (data1){
+  /*function putin (data1){
         
         
            var html = buildHtml(req);
@@ -168,13 +129,4 @@ console.log(data);
                         + '<html><centre><header><strong>' + header+'</strong><br /><br /><br </centre><body>' + body+'<br />'+ '</centre>';
                 };
     }*/
-    
-
-        
-        
-        
-        
-        
-        });
-        
-
+});

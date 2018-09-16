@@ -1,5 +1,5 @@
-**SnapShop.  Snap.  Shop.**
-**It's that easy** 
+SnapShop.  Snap.  Shop.
+It's that easy
 
 SnapShop is an application built at Hack the North 2018. 
 

@@ -18,7 +18,7 @@ app.get("/form", function(req, res) {
   html +=
     "Thr picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
   html += "<input type='submit' value='submit'>";
-  html += "<INPUT type='reset'  value='reset'>";
+  html += "<a class='btn' href='http://localhost:8888/connect.php'>Next</a>";
   html += "</form>";
   html += "</body></center>";
   res.send(html);

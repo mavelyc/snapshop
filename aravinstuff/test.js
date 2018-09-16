@@ -11,17 +11,19 @@ var server = app.listen(8001, function() {
   console.log("Example app listening at %s:%s Port", host, port);
 });
 
-app.get("/form", function(req, res) {
-  var html = "";
-  html += "<center><body>";
-  html += "<form action='/application/json'  method='post' name='form1'>";
-  html +=
-    "Thr picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
-  html += "<input type='submit' value='submit'>";
-  html += "<a class='btn' href='http://localhost:8888/connect.php'>Next</a>";
-  html += "</form>";
-  html += "</body></center>";
-  res.send(html);
+
+
+app.get('/form', function (req, res) {
+        var html='';
+        html +="<center><body>";
+        html += "<form action='/application/json'  method='post' name='form1'>";
+        html += "The picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
+        html += "<input type='submit' value='submit'>";
+        html += "<a class='btn' href='http://localhost:8888/connect.php'>Next</a>";
+        html += "</form>";
+        html += "</body></center>";
+        res.send(html);
+
 });
 
 app.post("/application/json", urlencodedParser, function(req, res) {

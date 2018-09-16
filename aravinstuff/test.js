@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 // Running Server Details.
-var server = app.listen(8000, function () {
+var server = app.listen(8001, function () {
         var host = server.address().address
         var port = server.address().port
         console.log("Example app listening at %s:%s Port", host, port)
@@ -47,16 +47,27 @@ const client = new vision.ImageAnnotatorClient();
 client
   .labelDetection(URL)
   .then(results => {
-    var x=(results[0]);
+    var x={
+        results: results[0]
+    }
+        ;
     
     
-    res.setHeader('Content-Type', 'application/json');
+ /*   res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(x));
 
         app.get('/', function(req, res){
             res.send(JSON.stringify(x));
         });
-
+*/
+    
+    var json = JSON.stringify(x);
+    var fs = require('fs')
+fs.writeFile ("app.json", json, function(err) {
+    if (err) throw err;
+    console.log('complete');
+    }
+);
 
     //labels.forEach(label => console.log(label.description));
     //putin(labels);
@@ -76,7 +87,7 @@ client
 
     
     
-    var x=(results[0]);
+    var x={results:results[0]};
     
    
         /*res.send(JSON.stringify(x));
@@ -88,6 +99,15 @@ client
     
     
     //putin(data1);
+    
+     var json = JSON.stringify(x);
+    var fs = require('fs')
+fs.writeFile ("logo.json", json, function(err) {
+    if (err) throw err;
+    console.log('complete');
+    }
+);
+    
  
   })
   .catch(err => {

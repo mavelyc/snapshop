@@ -15,11 +15,11 @@ var server = app.listen(8001, function() {
 
 app.get('/form', function (req, res) {
         var html='';
-        html +="<center><body>";
+        html +="<center><head><style>body {background-image: url('https://nssdata.s3.amazonaws.com/images/galleries/12703/supreme-shop-new-york-nss-mag.jpg');}</style></head><body>";
         html += "<form action='/application/json'  method='post' name='form1'>";
-        html += "The picture you would like to analyze</p><input type= 'text' name='name' size='100'>";
-        html += "<input type='submit' value='submit'>";
-        html += "<a class='btn' href='http://localhost:8888/connect.php'>Next</a>";
+        html += "<br /><br /><br /><h1>The picture you would like to analyze</h1><input type= 'text' name='name' size='100'>";
+        html += "<br /><br /><input type='submit' value='submit'><br/><br />";
+        html += "<a class='btn' href='http://localhost:8888/connect.php'><h2>Next</h2></a>";
         html += "</form>";
         html += "</body></center>";
         res.send(html);
